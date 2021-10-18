@@ -2,7 +2,9 @@ package com.example.lab5notes;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,8 +21,8 @@ public class MainActivity2 extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
 
         textView = (TextView) findViewById(R.id.textView);
-        Intent intent = getIntent();
-        String str = intent.getStringExtra("message");
+        SharedPreferences sharedPreferences = getSharedPreferences("com.example.lab5notes", Context.MODE_PRIVATE);
+        String str = sharedPreferences.getString("username","");
         textView.setText("Welcome " + str + "!");
 
     }
@@ -37,9 +39,13 @@ public class MainActivity2 extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.logout:
                 Intent intent = new Intent(this, MainActivity.class);
+                SharedPreferences sharedPreferences = getSharedPreferences("com.example.lab5notes", Context.MODE_PRIVATE);
+                sharedPreferences.edit().remove("username").apply();
                 startActivity(intent);
                 return true;
             case R.id.addNote:
+                Intent intent1 = new Intent(this, MainActivity3.class);
+                startActivity(intent1);
                 return true;
         }
         return super.onOptionsItemSelected(item);
